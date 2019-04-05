@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
+@EnableReactiveMethodSecurity
 @EnableWebFluxSecurity
 public class SecurityConfig {
   @Bean
@@ -29,9 +31,10 @@ public class SecurityConfig {
       ServerHttpSecurity http) {
     http.csrf().disable()
         .cors().disable()
-        .formLogin()
-        .loginPage("/login")
-        .and()
+        .formLogin().disable()
+        .logout().disable();
+
+    http
         .authorizeExchange()
         .pathMatchers(HttpMethod.POST, "/users").permitAll()
         .pathMatchers(HttpMethod.GET, "/users").permitAll()

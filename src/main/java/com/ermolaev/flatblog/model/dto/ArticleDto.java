@@ -1,8 +1,6 @@
 package com.ermolaev.flatblog.model.dto;
 
-import com.ermolaev.flatblog.model.component.Component;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +14,6 @@ public class ArticleDto {
   private String title;
   private String shortTitle;
   private UserDto user;
-  private List<Component> components;
+  private String text;
   private LocalDateTime createDate;
 }

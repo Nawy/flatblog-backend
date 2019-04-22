@@ -15,6 +15,7 @@ import com.ermolaev.flatblog.util.HttpErrorUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -30,10 +31,10 @@ public class UserRouteConfig {
   }
 
   @Bean
-  RouterFunction<ServerResponse> createUser(UserService userService) {
+  RouterFunction<ServerResponse> createUser(UserService userService, PasswordEncoder passwordEncoder) {
     return route(POST("/users"), req ->
         req.bodyToMono(CreateUserDto.class)
-            .map(UserMapper::fromDto)
+            .map(userDto -> UserMapper.fromDto(userDto,passwordEncoder))
             .flatMap(userService::create)
             .map(UserMapper::toDto)
             .flatMap(newUser -> status(HttpStatus.CREATED).body(Mono.just(newUser), UserDto.class))

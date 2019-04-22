@@ -3,7 +3,7 @@ package com.ermolaev.flatblog.mapper;
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 import com.ermolaev.flatblog.model.Article;
-import com.ermolaev.flatblog.model.User;
+import com.ermolaev.flatblog.model.user.ArticleUser;
 import com.ermolaev.flatblog.model.dto.ArticleDto;
 import com.ermolaev.flatblog.model.dto.CreateArticleDto;
 import java.time.LocalDateTime;
@@ -13,25 +13,25 @@ public class ArticleMapper {
   private ArticleMapper() {
   }
 
-  public static ArticleDto toDto(Article article, User user) {
+  public static ArticleDto toDto(Article article) {
     return new ArticleDto(
         article.getId(),
         article.getTitle(),
         article.getShortTitle(),
-        UserMapper.toDto(user),
-        article.getComponents(),
+        UserMapper.toDto(article.getUser()),
+        article.getText(),
         article.getCreateDate()
     );
   }
 
-  public static Article fromCreateDto(CreateArticleDto article) {
+  public static Article fromCreateDto(CreateArticleDto article, ArticleUser user) {
     LocalDateTime now = LocalDateTime.now();
     return new Article(
         null,
         article.getTitle(),
         article.getShortTitle(),
-        article.getUserId(),
-        article.getComponents(),
+        user,
+        article.getText(),
         now,
         now
     );
@@ -43,8 +43,8 @@ public class ArticleMapper {
         existedArticle.getId(),
         firstNonNull(articleDto.getTitle(), existedArticle.getTitle()),
         firstNonNull(articleDto.getShortTitle(), existedArticle.getShortTitle()),
-        existedArticle.getUserId(),
-        firstNonNull(articleDto.getComponents(), existedArticle.getComponents()),
+        existedArticle.getUser(),
+        firstNonNull(articleDto.getText(), existedArticle.getText()),
         now,
         now
     );

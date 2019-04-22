@@ -1,10 +1,10 @@
 package com.ermolaev.flatblog.repository;
 
-import com.ermolaev.flatblog.model.User;
+import com.ermolaev.flatblog.model.user.ArticleUser;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Mono;
 
-public interface UserRepository extends ReactiveCrudRepository<User, String> {
+public interface UserRepository extends ReactiveCrudRepository<ArticleUser, String> {
 
-  Mono<User> findByLogin(String login);
+  Mono<ArticleUser> findByLogin(String login);
 }

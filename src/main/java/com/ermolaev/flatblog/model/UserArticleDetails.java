@@ -1,7 +1,9 @@
 package com.ermolaev.flatblog.model;
 
+import com.ermolaev.flatblog.model.user.ArticleUser;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Set;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,21 +11,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 @RequiredArgsConstructor
 public class UserArticleDetails implements UserDetails {
 
-  private final User user;
+  @Getter
+  private final ArticleUser articleUser;
+  private final Set<GrantedAuthority> authorities;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.singleton(new UserAuthority("all"));
+    return authorities;
   }
 
   @Override
   public String getPassword() {
-    return user.getPassword();
+    return articleUser.getPassword();
   }
 
   @Override
   public String getUsername() {
-    return user.getLogin();
+    return articleUser.getLogin();
   }
 
   @Override
@@ -46,14 +50,4 @@ public class UserArticleDetails implements UserDetails {
     return true;
   }
 
-  @RequiredArgsConstructor
-  static class UserAuthority implements GrantedAuthority {
-
-    private final String name;
-
-    @Override
-    public String getAuthority() {
-      return name;
-    }
-  }
 }

@@ -1,8 +1,7 @@
 package com.ermolaev.flatblog.model;
 
-import com.ermolaev.flatblog.model.component.Component;
+import com.ermolaev.flatblog.model.user.ArticleUser;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +20,8 @@ public class Article {
   private String id;
   private String title;
   private String shortTitle;
-  private String userId;
-  private List<Component> components;
+  private ArticleUser user;
+  private String text;
   private LocalDateTime updateDate;
   private LocalDateTime createDate;
 }

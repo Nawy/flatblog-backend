@@ -6,7 +6,6 @@ import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Mono;
@@ -15,10 +14,10 @@ import reactor.core.scheduler.Schedulers;
 @Slf4j
 public class JWTReactiveAuthenticationManager implements ReactiveAuthenticationManager {
 
-  private final ReactiveUserDetailsService userDetailsService;
+  private final UserDetailsService userDetailsService;
   private final PasswordEncoder passwordEncoder;
 
-  public JWTReactiveAuthenticationManager(ReactiveUserDetailsService userDetailsService,
+  public JWTReactiveAuthenticationManager(UserDetailsService userDetailsService,
       PasswordEncoder passwordEncoder) {
     this.userDetailsService = userDetailsService;
     this.passwordEncoder = passwordEncoder;

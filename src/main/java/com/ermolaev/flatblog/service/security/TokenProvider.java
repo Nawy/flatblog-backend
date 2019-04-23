@@ -1,5 +1,9 @@
 package com.ermolaev.flatblog.service.security;
 
+import com.ermolaev.flatblog.model.UserArticleDetails;
+import com.ermolaev.flatblog.model.security.Authorities;
+import com.ermolaev.flatblog.model.user.ArticleUser;
+import com.ermolaev.flatblog.model.user.Authority;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -10,8 +14,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +25,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -71,14 +74,14 @@ public class TokenProvider {
         .parseClaimsJws(token)
         .getBody();
 
-    Collection<? extends GrantedAuthority> authorities =
+    Set<GrantedAuthority> authorities =
         Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+            .map(Authority::new)
+            .collect(Collectors.toSet());
 
-    User principal = new User(claims.getSubject(), "", authorities);
+    ArticleUser principal = new ArticleUser(claims.getSubject(), null);
 
-    return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    return new UsernamePasswordAuthenticationToken(new UserArticleDetails(principal, authorities), token, authorities);
   }
 
   public boolean validateToken(String authToken) {

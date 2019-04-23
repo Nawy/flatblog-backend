@@ -1,4 +1,4 @@
-package com.ermolaev.flatblog.configuration;
+package com.ermolaev.flatblog.router;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
@@ -20,7 +20,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @Configuration
-public class AuthRouteConfig {
+public class AuthRouter {
 
   @Bean
   RouterFunction<ServerResponse> auth(JWTReactiveAuthenticationManager authenticationManager,

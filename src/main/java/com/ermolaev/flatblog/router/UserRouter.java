@@ -1,4 +1,4 @@
-package com.ermolaev.flatblog.configuration;
+package com.ermolaev.flatblog.router;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
@@ -21,7 +21,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @Configuration
-public class UserRouteConfig {
+public class UserRouter {
 
   @Bean
   RouterFunction<ServerResponse> getAllUsers(UserService userService) {

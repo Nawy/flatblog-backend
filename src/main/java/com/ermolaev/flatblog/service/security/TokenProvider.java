@@ -1,7 +1,6 @@
 package com.ermolaev.flatblog.service.security;
 
 import com.ermolaev.flatblog.model.UserArticleDetails;
-import com.ermolaev.flatblog.model.security.Authorities;
 import com.ermolaev.flatblog.model.user.ArticleUser;
 import com.ermolaev.flatblog.model.user.Authority;
 import io.jsonwebtoken.Claims;
@@ -24,7 +23,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -78,6 +76,7 @@ public class TokenProvider {
         Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
             .map(Authority::new)
             .collect(Collectors.toSet());
+
 
     ArticleUser principal = new ArticleUser(claims.getSubject(), null);
 

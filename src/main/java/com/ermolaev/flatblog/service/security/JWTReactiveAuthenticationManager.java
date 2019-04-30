@@ -1,5 +1,6 @@
 package com.ermolaev.flatblog.service.security;
 
+import com.ermolaev.flatblog.model.security.UserAuthenticationToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -36,7 +37,7 @@ public class JWTReactiveAuthenticationManager implements ReactiveAuthenticationM
         .onErrorResume(e -> raiseBadCredentials())
         .filter(u -> passwordEncoder.matches((String) authentication.getCredentials(), u.getPassword()))
         .switchIfEmpty(Mono.defer(this::raiseBadCredentials))
-        .map(u -> new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), u.getAuthorities()));
+        .map(u -> new UserAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), u.getArticleUser(), u.getAuthorities()));
   }
 
   private <T> Mono<T> raiseBadCredentials() {
